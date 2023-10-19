@@ -18,7 +18,6 @@
     <ClCompile Include="Game\Door.cpp" />
     <ClCompile Include="Game\Effect.cpp" />
     <ClCompile Include="Game\Enemy.cpp" />
-    <ClCompile Include="Game\EnemyManager.cpp" />
     <ClCompile Include="Game\Field.cpp" />
     <ClCompile Include="Game\Game.cpp" />
     <ClCompile Include="Game\Goal.cpp" />
@@ -36,7 +35,6 @@
     <ClInclude Include="Game\Door.h" />
     <ClInclude Include="Game\Effect.h" />
     <ClInclude Include="Game\Enemy.h" />
-    <ClInclude Include="Game\EnemyManager.h" />
     <ClInclude Include="Game\Field.h" />
     <ClInclude Include="Game\Game.h" />
     <ClInclude Include="Game\Goal.h" />

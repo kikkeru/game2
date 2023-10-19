@@ -35,7 +35,7 @@ Player::Player(const CVector2D& p, bool flip) :Base(eType_Player) {
 	//ダメージ番号
 	m_damage_no = -1;
 	//ヒットポイント
-	m_hp = 50;
+	m_hp = 300;
 }
 void Player::StateAttack() {
 	//攻撃アニメーションへ変更
@@ -103,7 +103,7 @@ void Player::Draw() {
 	m_img.SetPos(GetScreenPos(m_pos));
 	m_img.SetFlipH(m_flip);
 	m_img.Draw();
-	//DrawRect();
+	DrawRect();
 }
 
 void Player::Collision(Base* b) {
@@ -140,13 +140,14 @@ void Player::Collision(Base* b) {
 				m_is_ground = true;
 			}
 		}
+		//マップ型へキャスト、型変換できたら
 		if (Map* m = dynamic_cast<Map*>(b)) {
 			int t;
-			t = m->CollisionPoint(CVector2D(m_pos.x, m_pos_old.y));
+			t = m->CollisionRect(CVector2D(m_pos.x, m_pos_old.y),m_rect);
 			if (t != 0) {
 				m_pos.x = m_pos_old.x;
 			}
-			t = m->CollisionPoint(CVector2D(m_pos_old.x, m_pos.y));
+			t = m->CollisionRect(CVector2D(m_pos_old.x, m_pos.y),m_rect);
 			if (t != 0) {
 				m_pos.y = m_pos_old.y;
 				//落下速度リセット
@@ -168,7 +169,7 @@ void Player::StateIdle() {
 	//ジャンプ力
 	const float jump_pow = 15;
 	//左移動
-	if (HOLD(CInput::eLeft)) {
+	if (HOLD(CInput::eButton12)) {
 		//移動量を設定
 		m_pos.x -= move_speed;
 		//反転フラグ
@@ -176,7 +177,7 @@ void Player::StateIdle() {
 		move_flag = true;
 	}
 	//右移動
-	if (HOLD(CInput::eRight)) {
+	if (HOLD(CInput::eButton14)) {
 		m_pos.x += move_speed;
 		m_flip = false;
 		move_flag = true;

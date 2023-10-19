@@ -2,7 +2,6 @@
 #include"Field.h"
 #include"Player.h"
 #include"Enemy.h"
-#include"EnemyManager.h"
 #include"Goal.h"
 #include"Map.h"
 #include"../Title/Title.h"

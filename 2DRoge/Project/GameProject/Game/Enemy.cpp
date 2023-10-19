@@ -3,6 +3,8 @@
 #include"Field.h"
 #include"Bullet.h"
 #include"Effect.h"
+#include"Slash.h"
+#include"Map.h"
 
 
 Enemy::Enemy(const CVector2D& p, bool flip) :Base(eType_Enemy) {
@@ -25,10 +27,10 @@ void Enemy::StateAttack() {
 	//3番目のパターンなら
 	if (m_img.GetIndex() == 3) {
 		if (m_flip) {
-			Base::Add(new Bullet(m_pos + CVector2D(-80, -80), m_flip, eType_Enemy_Attack, m_attack_no));
+			Base::Add(new Slash(m_pos + CVector2D(-80, -80), m_flip, eType_Enemy_Attack, m_attack_no));
 		}
 		else {
-			Base::Add(new Bullet(m_pos + CVector2D(80, -80), m_flip, eType_Enemy_Attack, m_attack_no));
+			Base::Add(new Slash(m_pos + CVector2D(80, -80), m_flip, eType_Enemy_Attack, m_attack_no));
 		}
 	}
 	//アニメーションが終了したら
@@ -111,7 +113,22 @@ void Enemy::Collision(Base* b) {
 				m_is_ground = true;
 			}
 		}
-
+		if (Map* m = dynamic_cast<Map*>(b)) {
+			int t;
+			t = m->CollisionPoint(CVector2D(m_pos.x, m_pos_old.y));
+			if (t != 0) {
+				m_pos.x = m_pos_old.x;
+			}
+			t = m->CollisionPoint(CVector2D(m_pos_old.x, m_pos.y));
+			if (t != 0) {
+				m_pos.y = m_pos_old.y;
+				//落下速度リセット
+				m_vec.y = 0;
+				//接地フラグON
+				m_is_ground = true;
+			}
+		}
+		break;
 	
 		
 	}

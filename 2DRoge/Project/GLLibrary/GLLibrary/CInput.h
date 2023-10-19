@@ -47,6 +47,7 @@ public:
 		eButton11,
 		eButton12,
 		eButton13,
+		eButton14,
 		eMouseL,
 		eMouseR,
 		eMouseC,
