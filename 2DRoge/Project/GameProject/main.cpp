@@ -73,7 +73,7 @@ void Init(void)
 	ADD_RESOURCE("Sky", CImage::CreateImage("Image/Sky.png"));
 	ADD_RESOURCE("Town", CImage::CreateImage("Image/Town.png"));
 	ADD_RESOURCE("ForeGround", CImage::CreateImage("Image/ForeGround.png"));
-	ADD_RESOURCE("MapTip", CImage::CreateImage("Image/MapTip.png"));
+	ADD_RESOURCE("MapTip", CImage::CreateImage("Image/MapTip1.png"));
 	ADD_RESOURCE("Effect_Bullet", CImage::CreateImage("Image/Effect_Bullet.png", effect_bullet_anim_data, 32, 32));
 	ADD_RESOURCE("Effect_Bomb", CImage::CreateImage("Image/Effect_Bomb.png", effect_bomb_anim_data, 96, 96));
 	//ADD_RESOURCE("Effect_Blood", CImage::CreateImage("Image/Effect_Blood.png", effect_blood_anim_data, 128, 128));

@@ -55,7 +55,7 @@ static int stage2data[MAP_HEIGHT][MAP_WIDTH] = {
 
 
 Map::Map(int area) :Base(eType_Field) {
-    m_img = COPY_RESOURCE("MapTip", CImage);
+    m_img = COPY_RESOURCE("MapTip1", CImage);
     switch (area) {
     case 1:
         memcpy(m_stage_data, stage1data, sizeof(stage1data));
