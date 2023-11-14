@@ -44,6 +44,9 @@
     <ClCompile Include="Game\AreaChange.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="Game\Guard.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">
@@ -98,6 +101,9 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Game\AreaChange.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Guard.h">
       <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>

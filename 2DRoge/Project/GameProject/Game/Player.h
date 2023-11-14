@@ -6,6 +6,9 @@ private:
 	enum {
 		eState_Idle,
 		eState_Attack,
+		eState_Attack2,
+		eState_Attack3,
+		eState_Guard,
 		eState_Damage,
 		eState_Down,
 	};
@@ -20,8 +23,12 @@ private:
 	int m_damage_no;
 	//ヒットポイント
 	int m_hp;
+	float m_cnt;
 	void StateIdle();
 	void StateAttack();
+	void StateAttack2();
+	void StateAttack3();
+	void StateGuard();
 	void StateDamage();
 	void StateDown();
 public:

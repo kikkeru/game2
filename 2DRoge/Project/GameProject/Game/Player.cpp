@@ -1,5 +1,6 @@
 #include"Player.h"
 #include"AnimData.h"
+#include"AreaChange.h"
 #include"Field.h"
 #include"Bullet.h"
 #include"Slash.h"
@@ -7,7 +8,8 @@
 #include"Enemy.h"
 #include"Goal.h"
 #include"Map.h"
-
+#include"Door.h"
+#include"Guard.h"
 
 
 
@@ -19,11 +21,11 @@ Player::Player(const CVector2D& p, bool flip) :Base(eType_Player) {
 	m_pos_old = m_pos = p;
 	//座標設定
 	m_pos = p;
-	m_img.SetSize(150, 150);
+	m_img.SetSize(200, 200);
 	//中心位置設定
-	m_img.SetCenter(50, 150);
+	m_img.SetCenter(100, 100);
 	//当たり判定
-	m_rect = CRect(-32, -150, 50, 0);
+	m_rect = CRect(-30, -40, 30, 100);
 	//反転フラグ
 	m_flip = flip;
 	//通常状態へ
@@ -35,34 +37,104 @@ Player::Player(const CVector2D& p, bool flip) :Base(eType_Player) {
 	//ダメージ番号
 	m_damage_no = -1;
 	//ヒットポイント
-	m_hp = 300;
+	m_hp = 3000;
+	m_cnt;
 }
 void Player::StateAttack() {
-	//攻撃アニメーションへ変更
+	
+	 //攻撃アニメーション１へ変更
 	m_img.ChangeAnimation(eAnimAttack01, false);
-	//3番目のパターンなら
-	if (m_img.GetIndex() == 3) {
+	//1番目のパターンなら
+	/*if (m_img.GetIndex() == 1) {
 		if (m_flip) {
-			Base::Add(new Slash(m_pos + CVector2D(-80, -80), m_flip, eType_Player_Attack, m_attack_no));
+			Base::Add(new Slash(m_pos + CVector2D(-80, 30), m_flip, eType_Player_Attack, m_attack_no));
 		}
 		else {
-			Base::Add(new Slash(m_pos + CVector2D(80, -80), m_flip, eType_Player_Attack, m_attack_no));
+			Base::Add(new Slash(m_pos + CVector2D(80, 30), m_flip, eType_Player_Attack, m_attack_no));
+		}
+	}*/
+	//アニメーションが終了したら
+	if (m_img.CheckAnimationEnd()) {
+		if (HOLD(CInput::eButton3)) {
+			m_state = eState_Attack2;
+			if (HOLD(CInput::eButton3)) {
+				m_state = eState_Attack3;
+			}
+		}
+		else if(m_img.CheckAnimationEnd()) {
+		//通常状態へ移行
+			m_state = eState_Idle;
 		}
 	}
+		
+
+	
+}
+
+void Player::StateAttack2() {
+	//攻撃アニメーション2へ変更
+	m_img.ChangeAnimation(eAnimAttack02, false);
+	//1番目のパターンなら
+	/*if (m_img.GetIndex() == 1) {
+		if (m_flip) {
+			Base::Add(new Slash(m_pos + CVector2D(-80, 30), m_flip, eType_Player_Attack, m_attack_no));
+		}
+		else {
+			Base::Add(new Slash(m_pos + CVector2D(80, 30), m_flip, eType_Player_Attack, m_attack_no));
+		}
+	}*/
 	//アニメーションが終了したら
 	if (m_img.CheckAnimationEnd()) {
 		//通常状態へ移行
 		m_state = eState_Idle;
 	}
 }
+void Player::StateAttack3() {
+	//攻撃アニメーション3へ変更
+	m_img.ChangeAnimation(eAnimAttack03, false);
+	//1番目のパターンなら
+	/*if (m_img.GetIndex() == 1) {
+		if (m_flip) {
+			Base::Add(new Slash(m_pos + CVector2D(-80, 30), m_flip, eType_Player_Attack, m_attack_no));
+		}
+		else {
+			Base::Add(new Slash(m_pos + CVector2D(80, 30), m_flip, eType_Player_Attack, m_attack_no));
+		}
+	}*/
+	//アニメーションが終了したら
+	if (m_img.CheckAnimationEnd()) {
+		//通常状態へ移行
+		m_state = eState_Idle;
+	}
+}
+
+//ガード
+void Player::StateGuard() {
+	if (HOLD(CInput::eButton4)) {
+		m_img.ChangeAnimation(eAnimGuard, true);
+		if (m_img.GetIndex() == 0) {
+			if (m_flip) {
+				Base::Add(new Guard(m_pos + CVector2D(-80, 30), m_flip, eType_Guard, m_attack_no));
+			}
+			else {
+				Base::Add(new Guard(m_pos + CVector2D(80, 30), m_flip, eType_Guard, m_attack_no));
+			}
+		}
+	}
+	else {
+		m_state = eState_Idle;
+	}
+}
+
 void Player::StateDamage() {
+	m_img.ChangeAnimation(eAnimDamage, false);
 	if (m_img.CheckAnimationEnd()) {
 		m_state = eState_Idle;
 	}
 }
 void Player::StateDown() {
-		//Base::Add(new Effect("Effect_Bomb", m_pos + CVector2D(0, 0), m_flip));
-		m_kill = true;
+	m_img.ChangeAnimation(eAnimDown, false);
+	m_kill = true;
 	
 }
 
@@ -76,6 +148,19 @@ void Player::Update() {
 		//攻撃状態
 	case eState_Attack:
 		StateAttack();
+		break;
+		//攻撃状態2
+	case eState_Attack2:
+		StateAttack2();
+		break;
+		//攻撃状態3
+	case eState_Attack3:
+		StateAttack3();
+		break;
+
+		//ガード状態
+	case eState_Guard:
+		StateGuard();
 		break;
 		//ダメージ状態
 	case eState_Damage:
@@ -108,7 +193,32 @@ void Player::Draw() {
 
 void Player::Collision(Base* b) {
 	switch (b->m_type) {
-	
+		//ドア
+	case eType_Door:
+		if (PUSH(CInput::eUp)) {
+			if (Door* s = dynamic_cast<Door*>(b)) {
+				if (Base::CollisionRect(this, s)) {
+					m_pos_old = m_pos = s->GetNextPos();
+				}
+			}
+		}
+		break;
+		//エリアチェンジ
+	case eType_AreaChange:
+		if (PUSH(CInput::eUp)) {
+			if (AreaChange* s = dynamic_cast<AreaChange*>(b)) {
+				if (Base::CollisionRect(this, s)) {
+					Base::Kill(1 << eType_Field
+						| 1 << eType_Enemy
+						| 1 << eType_AreaChange
+						| 1 << eType_Goal);
+					m_pos_old = m_pos = s->GetNextPos();
+					Base::Add(new Map(s->GetNextArea()));
+				}
+			}
+		}
+		break;
+
 		//ゴール判定
 	case eType_Goal:
 		if (Goal* g = dynamic_cast<Goal*>(b)) {
@@ -118,13 +228,20 @@ void Player::Collision(Base* b) {
 		}
 		break;
 		//攻撃オブジェクトとの判定
-	case eType_Enemy:
-		if (Base::CollisionRect(this, b)) {
+	case eType_Enemy_Attack:
+		//Slash型へキャスト、型変換できたら
+		if (Slash* s = dynamic_cast<Slash*>(b)) {
+			if (m_damage_no != s->GetAttackNo() && Base::CollisionRect(this, s)) {
+				m_damage_no = s->GetAttackNo();
 				m_hp -= 50;
 				if (m_hp <= 0) {
 					m_state = eState_Down;
 				}
-			
+				else {
+					m_state = eState_Damage;
+				}
+				//Base::Add(new Effect("Effect_Blood", m_pos + CVector2D(0, -128), m_flip));
+			}
 		}
 		break;
 	case eType_Field:
@@ -186,11 +303,17 @@ void Player::StateIdle() {
 		m_vec.y = -jump_pow;
 		m_is_ground = false;
 	}
-	//攻撃
-	if (PUSH(CInput::eButton1)) {
+	//攻撃(J)
+	if (PUSH(CInput::eButton3)) {
 		//攻撃状態へ移行
 		m_state = eState_Attack;
 		m_attack_no++;
+	}
+	//ガード(K)
+	if (HOLD(CInput::eButton4)) {
+		//ガード状態へ移行
+		m_state = eState_Guard;
+		
 	}
 	//ジャンプ中なら
 	if (!m_is_ground) {
@@ -199,7 +322,7 @@ void Player::StateIdle() {
 			m_img.ChangeAnimation(eAnimJumpUp, false);
 		else
 			//下降アニメーション
-			m_img.ChangeAnimation(eAnimJumpDown, false);
+				m_img.ChangeAnimation(eAnimJumpDown, true);
 	}
 	//地面にいるなら
 	else {

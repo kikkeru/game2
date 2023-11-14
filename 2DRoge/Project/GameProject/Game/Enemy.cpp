@@ -1,4 +1,5 @@
 #include"Enemy.h"
+#include"Player.h"
 #include"AnimData.h"
 #include"Field.h"
 #include"Bullet.h"
@@ -12,25 +13,29 @@ Enemy::Enemy(const CVector2D& p, bool flip) :Base(eType_Enemy) {
 	m_img.ChangeAnimation(0);
 	m_pos_old = m_pos = p;
 	m_pos = p;
-	m_img.SetSize(150, 150);
-	m_img.SetCenter(50,150);
+	m_img.SetSize(200, 200);
+	m_img.SetCenter(100, 100);
 	//当たり判定要矩形設定
-	m_rect = CRect(-32, -150, 50, 0);
+	m_rect = CRect(-30, -40, 30, 100);
+	//攻撃番号
+	m_attack_no = rand();
+	//ダメージ番号
+	m_damage_no = -1;
 	//体力の初期化
-	m_hp = 50;
+	m_hp = 500;
 	m_flip = flip;
 	m_state = eState_Idle;
 }
 void Enemy::StateAttack() {
 	//攻撃アニメーションへ変更
 	m_img.ChangeAnimation(eAnimAttack01, false);
-	//3番目のパターンなら
-	if (m_img.GetIndex() == 3) {
+	//0番目のパターンなら
+	if (m_img.GetIndex() == 0) {
 		if (m_flip) {
-			Base::Add(new Slash(m_pos + CVector2D(-80, -80), m_flip, eType_Enemy_Attack, m_attack_no));
+			Base::Add(new Slash(m_pos + CVector2D(-80, 30), m_flip, eType_Enemy_Attack, m_attack_no));
 		}
 		else {
-			Base::Add(new Slash(m_pos + CVector2D(80, -80), m_flip, eType_Enemy_Attack, m_attack_no));
+			Base::Add(new Slash(m_pos + CVector2D(80, 30), m_flip, eType_Enemy_Attack, m_attack_no));
 		}
 	}
 	//アニメーションが終了したら
@@ -46,7 +51,7 @@ void Enemy::StateDamage() {
 	}
 }
 void Enemy::StateDown() {
-		Base::Add(new Effect("Effect_Bomb", m_pos + CVector2D(0, 0), m_flip));
+		//Base::Add(new Effect("Effect_Bomb", m_pos + CVector2D(0, 0), m_flip));
 		m_kill = true;
 }
 
@@ -83,20 +88,41 @@ void Enemy::Draw() {
 	m_img.SetPos(GetScreenPos(m_pos));
 	m_img.SetFlipH(m_flip);
 	m_img.Draw();
-	//DrawRect();
+	DrawRect();
 }
 
 void Enemy::Collision(Base* b) {
 	switch (b->m_type) {
 	case eType_Player_Attack:
 		//Slash型へキャスト、型変換できたら
-		if (Bullet* s = dynamic_cast<Bullet*>(b)) {
+		if (Slash* s = dynamic_cast<Slash*>(b)) {
 			if (m_damage_no != s->GetAttackNo() && Base::CollisionRect(this, s)) {
 				m_damage_no = s->GetAttackNo();
 				m_hp -= 50;
 				if (m_hp <= 0) {
 					m_state = eState_Down;
 				}
+				else {
+					m_state = eState_Damage;
+				}
+				//Base::Add(new Effect("Effect_Blood", m_pos + CVector2D(0, -128), m_flip));
+			}
+		}
+		break;
+		//マップ型へキャスト、型変換できたら
+		if (Map* m = dynamic_cast<Map*>(b)) {
+			int t;
+			t = m->CollisionRect(CVector2D(m_pos.x, m_pos_old.y), m_rect);
+			if (t != 0) {
+				m_pos.x = m_pos_old.x;
+			}
+			t = m->CollisionRect(CVector2D(m_pos_old.x, m_pos.y), m_rect);
+			if (t != 0) {
+				m_pos.y = m_pos_old.y;
+				//落下速度リセット
+				m_vec.y = 0;
+				//接地フラグON
+				m_is_ground = true;
 			}
 		}
 		break;
@@ -113,13 +139,14 @@ void Enemy::Collision(Base* b) {
 				m_is_ground = true;
 			}
 		}
+		//Map型
 		if (Map* m = dynamic_cast<Map*>(b)) {
 			int t;
-			t = m->CollisionPoint(CVector2D(m_pos.x, m_pos_old.y));
+			t = m->CollisionRect(CVector2D(m_pos.x, m_pos_old.y), m_rect);
 			if (t != 0) {
 				m_pos.x = m_pos_old.x;
 			}
-			t = m->CollisionPoint(CVector2D(m_pos_old.x, m_pos.y));
+			t = m->CollisionRect(CVector2D(m_pos_old.x, m_pos.y), m_rect);
 			if (t != 0) {
 				m_pos.y = m_pos_old.y;
 				//落下速度リセット
@@ -140,12 +167,28 @@ void Enemy::StateIdle() {
 	bool move_flag = false;
 	//ジャンプりょく
 	const float jump_pow = 12;
+	Base* player = Base::FindObject(eType_Player);
+	if (player) {
 		//左移動
+		if (player->m_pos.x < m_pos.x - 64) {
 			//移動量を設定
 			m_pos.x += -move_speed;
 			//反転フラグ
 			m_flip = true;
 			move_flag = true;
+		}
+		else
+			//右移動
+			if (player->m_pos.x > m_pos.x + 64) {
+				m_pos.x += move_speed;
+				m_flip = false;
+				move_flag = true;
+			}
+			else {
+				m_state = eState_Attack;
+				m_attack_no++;
+			}
+	}
 	//移動中なら
 	if (move_flag) {
 		//走るアニメーション
