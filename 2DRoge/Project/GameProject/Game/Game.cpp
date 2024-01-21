@@ -8,10 +8,10 @@
 
 Game::Game() :Base(eType_Scene) {
 	//Base::Add(new Field());
-	Base::Add(new Player(CVector2D(256, 540), false));
-	//Base::Add(new Enemy(CVector2D(600 ,540), true));
+	Base::Add(new Player(CVector2D(256, 790), false));
+	Base::Add(new Enemy(CVector2D(1000 ,790), true));
 	//Base::Add(new Enemy(CVector2D(1280 + 256 * 3, 540), true));
-	Base::Add(new Goal(CVector2D(3000,540)));
+	//Base::Add(new Goal(CVector2D(3000,540)));
 	Base::Add(new Map(1));
 
 }
@@ -27,8 +27,12 @@ void Game::Update() {
 		if (g->GetGoal())
 			SetKill();
 	}
-	//プレイヤー死亡　ボタン１でゲームシーン終了
-	if (!Base::FindObject(eType_Player) && PUSH(CInput::eButton1)) {
+	//プレイヤー死亡 でゲームシーン終了
+	if (!Base::FindObject(eType_Player) ) {
+		SetKill();
+	}
+
+	if (!Base::FindObject(eType_Boss) ) {
 		SetKill();
 	}
 }

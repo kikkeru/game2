@@ -47,6 +47,15 @@
     <ClCompile Include="Game\Guard.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="Game\BOSS.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Block.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\MoveBlock.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Base">
@@ -104,6 +113,15 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="Game\Guard.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\BOSS.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Block.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\MoveBlock.h">
       <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>

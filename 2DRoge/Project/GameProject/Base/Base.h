@@ -9,11 +9,19 @@ enum {
     eType_AreaChange,
     eType_Player,
     eType_Enemy,
+    eType_Boss,
     eType_Bullet,
+    eType_Block,
+    eType_MoveBlock,
     eType_Goal,
     eType_Guard,
     eType_Player_Attack,
+    eType_Player_Attack2,
+    eType_Player_Attack3,
     eType_Enemy_Attack,
+    eType_Boss_Attack,
+    eType_Boss_Attack2,
+    eType_Boss_Attack3,
     eType_Effect,
     eType_UI,
     eType_Scene,
@@ -35,7 +43,8 @@ public:
     float m_rad;
     //移動ベクトル
     CVector2D m_vec;
-
+    //回転値
+    float m_rot;		
     //矩形
     CRect   m_rect;
 

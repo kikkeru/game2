@@ -9,6 +9,7 @@ private:
 		eState_Attack2,
 		eState_Attack3,
 		eState_Guard,
+		eState_Step,
 		eState_Damage,
 		eState_Down,
 	};
@@ -24,6 +25,7 @@ private:
 	//ヒットポイント
 	int m_hp;
 	float m_cnt;
+	int m_A;
 	void StateIdle();
 	void StateAttack();
 	void StateAttack2();
@@ -31,9 +33,15 @@ private:
 	void StateGuard();
 	void StateDamage();
 	void StateDown();
+	void StateStep();
+	static Player* ms_instance;
+
 public:
 	Player(const CVector2D& p, bool flip);
 	void Update();
 	void Draw();
 	void Collision(Base* b);
+	static Player* Instance();
+	const CVector2D& GetPos() const;
+
 };

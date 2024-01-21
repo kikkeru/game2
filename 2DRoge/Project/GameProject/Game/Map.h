@@ -10,6 +10,8 @@
 class Map :public Base {
 private:
 	CImage m_img;
+	CImage m_Dungeon;
+
 	int m_stage_data[MAP_HEIGHT][MAP_WIDTH];
 public:
 	Map(int area);

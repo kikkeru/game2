@@ -46,6 +46,8 @@ void Init(void)
 	CInput::SetButton(0, CInput::eButton12, 'A');
 	CInput::SetButton(0, CInput::eButton13, 'S');
 	CInput::SetButton(0, CInput::eButton14, 'D');
+	CInput::SetButton(0, CInput::eButton15, 'I');
+	CInput::SetButton(0, CInput::eButton16, 'E');
 	CInput::SetButton(0, CInput::eUp, VK_UP);
 	CInput::SetButton(0, CInput::eDown, VK_DOWN);
 	CInput::SetButton(0, CInput::eLeft, VK_LEFT);
@@ -69,19 +71,28 @@ void Init(void)
 	//-----------------------------------------------------
 	//画像の読み込みと登録　”リソース名”　　　　”ファイル名” , アニメーションデータ , 幅 , 高さ
 	ADD_RESOURCE("Player", CImage::CreateImage("Image/Player.png", player_anim_data, 200,200));
+	ADD_RESOURCE("Boss", CImage::CreateImage("Image/Boss.png", boss_anim_data, 200, 200));
+
 	ADD_RESOURCE("Enemy", CImage::CreateImage("Image/Enemy.png", enemy_anim_data, 200, 200));
-	ADD_RESOURCE("Sky", CImage::CreateImage("Image/Sky.png"));
+	ADD_RESOURCE("Dungeon", CImage::CreateImage("Image/Dungeon.png"));
 	ADD_RESOURCE("Town", CImage::CreateImage("Image/Town.png"));
 	ADD_RESOURCE("ForeGround", CImage::CreateImage("Image/ForeGround.png"));
 	ADD_RESOURCE("MapTip", CImage::CreateImage("Image/MapTip.png"));
-	ADD_RESOURCE("Effect_Bullet", CImage::CreateImage("Image/Effect_Bullet.png", effect_bullet_anim_data, 32, 32));
-	ADD_RESOURCE("Effect_Gurad", CImage::CreateImage("Image/Gurad.png", effect_Gurad_anim_data, 96, 96));
-	//ADD_RESOURCE("Effect_Blood", CImage::CreateImage("Image/Effect_Blood.png", effect_blood_anim_data, 128, 128));
 	ADD_RESOURCE("Goal", CImage::CreateImage("Image/Goal.png"));
 	ADD_RESOURCE("Door", CImage::CreateImage("Image/Door.png"));
 	ADD_RESOURCE("Title", CImage::CreateImage("Image/Title.png"));
 	ADD_RESOURCE("Effect_Slash", CImage::CreateImage("Image/Effect_Slash.png", effect_slash_anim_data, 128, 128));
+	//ADD_RESOURCE("Effect_Slash2", CImage::CreateImage("Image/Effect_Slash.png2", effect_slash2_anim_data, 128, 128));
+	//ADD_RESOURCE("Effect_Slash3", CImage::CreateImage("Image/Effect_Slash.png3", effect_slash3_anim_data, 128, 128));
+	ADD_RESOURCE("Effect_ESlash1", CImage::CreateImage("Image/Effect_ESlash1.png", effect_eslash1_anim_data, 128, 128));
+	ADD_RESOURCE("Effect_ESlash2", CImage::CreateImage("Image/Effect_ESlash2.png", effect_eslash2_anim_data, 128, 128));
+	ADD_RESOURCE("Effect_ESlash3", CImage::CreateImage("Image/Effect_ESlash3.png", effect_eslash3_anim_data, 128, 128));
+	ADD_RESOURCE("Effect_Rock", CImage::CreateImage("Image/Effect_Rock.png", effect_Rock_anim_data, 128, 128));
+
 	ADD_RESOURCE("Guard", CImage::CreateImage("Image/Guard.png", Guard_anim_data, 50, 50));
+	ADD_RESOURCE("Block", CImage::CreateImage("Image/block2.png"));
+	ADD_RESOURCE("Block4", CImage::CreateImage("Image/block4.png"));
+
 
 	Base::Add(new Title());
 	

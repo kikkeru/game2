@@ -14,6 +14,8 @@
     <ClCompile Include="Base\Base.cpp" />
     <ClCompile Include="Game\AnimData.cpp" />
     <ClCompile Include="Game\AreaChange.cpp" />
+    <ClCompile Include="Game\BOSS.cpp" />
+    <ClCompile Include="Game\Block.cpp" />
     <ClCompile Include="Game\Bullet.cpp" />
     <ClCompile Include="Game\Door.cpp" />
     <ClCompile Include="Game\Effect.cpp" />
@@ -23,6 +25,7 @@
     <ClCompile Include="Game\Goal.cpp" />
     <ClCompile Include="Game\Guard.cpp" />
     <ClCompile Include="Game\Map.cpp" />
+    <ClCompile Include="Game\MoveBlock.cpp" />
     <ClCompile Include="Game\Player.cpp" />
     <ClCompile Include="Game\Slash.cpp" />
     <ClCompile Include="main.cpp" />
@@ -32,6 +35,8 @@
     <ClInclude Include="Base\Base.h" />
     <ClInclude Include="Game\AnimData.h" />
     <ClInclude Include="Game\AreaChange.h" />
+    <ClInclude Include="Game\BOSS.h" />
+    <ClInclude Include="Game\Block.h" />
     <ClInclude Include="Game\Bullet.h" />
     <ClInclude Include="Game\Door.h" />
     <ClInclude Include="Game\Effect.h" />
@@ -41,6 +46,7 @@
     <ClInclude Include="Game\Goal.h" />
     <ClInclude Include="Game\Guard.h" />
     <ClInclude Include="Game\Map.h" />
+    <ClInclude Include="Game\MoveBlock.h" />
     <ClInclude Include="Game\Player.h" />
     <ClInclude Include="Game\Slash.h" />
     <ClInclude Include="Global.h" />

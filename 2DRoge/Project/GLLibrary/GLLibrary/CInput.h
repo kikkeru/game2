@@ -48,6 +48,8 @@ public:
 		eButton12,
 		eButton13,
 		eButton14,
+		eButton15,
+		eButton16,
 		eMouseL,
 		eMouseR,
 		eMouseC,

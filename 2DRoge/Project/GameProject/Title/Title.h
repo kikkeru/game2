@@ -1,3 +1,4 @@
+#pragma once
 #include"../Base/Base.h"
 
 class Title :public Base {
@@ -11,4 +12,4 @@ public:
 	void Update();
 	void Draw();
 };
-#pragma once
+

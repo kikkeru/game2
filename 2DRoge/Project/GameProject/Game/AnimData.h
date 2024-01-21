@@ -18,27 +18,29 @@ enum {
 	eAnimDamageEnd,
 	eAnimDeath,
 	eAnimDown,
-	eAnimDownGround,
-	eAnimWakeUp,
 	eAnimGuard,
 	eAnimGuardEnd,
-	eAnimCrash,
-	eAnimCrashEnd,
-	eAnimExtAttack01,
-	eAnimExtAttack01End,
-	eAnimExtAttack02,
-	eAnimExtAttack02End,
 	eAnimStep,
+	eAnimStan,
+	eAnimCharge,
+	eAnimPause,
 };
 
 //プレイヤーのアニメーションデータ
 extern TexAnimData player_anim_data[];
 //敵のアニメーションデータ
 extern TexAnimData enemy_anim_data[];
+//ボスのアニメーションデータ
+extern TexAnimData boss_anim_data[];
+
 //エフェクトのアニメーションデータ
-extern TexAnimData effect_blood_anim_data[];
-extern TexAnimData effect_smoke_anim_data[];
-extern TexAnimData effect_bullet_anim_data[];
 extern TexAnimData effect_Gurad_anim_data[];
 extern TexAnimData effect_slash_anim_data[];
+extern TexAnimData effect_slash2_anim_data[];
+extern TexAnimData effect_slash3_anim_data[];
+extern TexAnimData effect_eslash1_anim_data[];
+extern TexAnimData effect_eslash2_anim_data[];
+extern TexAnimData effect_eslash3_anim_data[];
 extern TexAnimData Guard_anim_data[];
+extern TexAnimData effect_Rock_anim_data[];
+

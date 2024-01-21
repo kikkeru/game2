@@ -20,6 +20,6 @@ void Title::Update() {
 void Title::Draw() {
 	m_img.Draw();
 	//文字表示
-	m_title_text.Draw(64, 256, 0, 0, 0, "タイトル");
+	m_title_text.Draw(64, 256, 0, 0, 0, "放浪ダンジョン");
 	m_title_text.Draw(64, 512, 0, 0, 0, "Push Z");
 }
